@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LEGAT — криминалистический агрегатор</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__content">
+      <div>
+        <p class="hero__label">LEGAT</p>
+        <h1>Криминалистический агрегатор для служебного пользования</h1>
+        <p class="hero__subtitle">
+          Единая рабочая среда для законного сбора данных, аналитики и подготовки отчётов.
+        </p>
+        <div class="hero__tags">
+          <span>Законные источники</span>
+          <span>Контроль качества</span>
+          <span>Наглядные связи</span>
+          <span>Отчётность по шаблону</span>
+        </div>
+      </div>
+      <div class="hero__panel">
+        <h3>Статус системы</h3>
+        <ul>
+          <li>Активные дела: <strong id="caseCount">–</strong></li>
+          <li>Фигурантов в базе: <strong id="personCount">–</strong></li>
+          <li>Гипотез в работе: <strong id="hypothesisCount">–</strong></li>
+          <li>Источники подключены: <strong id="sourceCount">–</strong></li>
+        </ul>
+        <div class="hero__notice">
+          Система работает только с данными, полученными законным путём.
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="workspace">
+      <div class="section__header">
+        <h2>Рабочая зона поиска</h2>
+        <p>Запросы сохраняются как объекты анализа и могут быть привязаны к делу.</p>
+      </div>
+      <div class="workspace">
+        <div class="card">
+          <h3>Новый поисковый запрос</h3>
+          <div class="search-builder">
+            <div class="search-builder__controls">
+              <select id="fieldType">
+                <option value="fio">ФИО</option>
+                <option value="birth">Год рождения</option>
+                <option value="phone">Телефон</option>
+                <option value="email">Email</option>
+                <option value="plate">Номер авто</option>
+                <option value="address">Адрес</option>
+                <option value="social">Никнейм / ID соцсети</option>
+                <option value="link">Ссылка на профиль</option>
+                <option value="photo">Фото</option>
+                <option value="internal">Внутренний ID</option>
+              </select>
+              <input id="fieldValue" type="text" placeholder="Введите значение" />
+              <button class="btn" id="addField">Добавить поле</button>
+            </div>
+            <div class="search-builder__list" id="fieldList"></div>
+            <div class="search-builder__actions">
+              <button class="btn btn--primary" id="saveQuery">Сохранить запрос</button>
+              <button class="btn" id="startSearch">Запустить агенты</button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Сохранённые запросы</h3>
+          <div class="saved" id="savedQueries"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="roles">
+      <div class="section__header">
+        <h2>Роли и доступ</h2>
+        <p>Концептуальная модель ролей без технических деталей реализации.</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="card">
+          <h3>Аналитик</h3>
+          <ul>
+            <li>Создание и просмотр дел.</li>
+            <li>Поиск и просмотр фигурантов.</li>
+            <li>Запуск агентов сбора данных.</li>
+            <li>Формирование отчётов и гипотез.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Руководитель</h3>
+          <ul>
+            <li>Все права Аналитика.</li>
+            <li>Утверждение отчётов.</li>
+            <li>Просмотр журналов действий.</li>
+            <li>Управление подключёнными источниками.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Только просмотр</h3>
+          <ul>
+            <li>Карточки, отчёты, связи, карты.</li>
+            <li>Без права редактирования.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="entities">
+      <div class="section__header">
+        <h2>Основные сущности данных</h2>
+        <p>Единый словарь системы, используемый во всех модулях.</p>
+      </div>
+      <div class="grid grid--3" id="entityGrid"></div>
+    </section>
+
+    <section class="section" id="caseboard">
+      <div class="section__header">
+        <h2>Дела и фигуранты</h2>
+        <p>Демонстрационные дела с фиктивными персонажами, событиями и связями.</p>
+      </div>
+      <div class="caseboard" id="caseBoard"></div>
+    </section>
+
+    <section class="section" id="integrations">
+      <div class="section__header">
+        <h2>Интеграции с источниками</h2>
+        <p>Универсальный модуль обработки законных источников без упоминания технологий.</p>
+      </div>
+      <div class="grid grid--3" id="sourceGrid"></div>
+    </section>
+
+    <section class="section" id="pipeline">
+      <div class="section__header">
+        <h2>Нормализация и связывание данных</h2>
+      </div>
+      <div class="pipeline">
+        <div class="pipeline__step">
+          <h3>Нормализация</h3>
+          <ul>
+            <li>ФИО, транслитерации, регистры.</li>
+            <li>Адреса и геопривязка.</li>
+            <li>Телефон, email, авто.</li>
+          </ul>
+        </div>
+        <div class="pipeline__step">
+          <h3>Сопоставление</h3>
+          <ul>
+            <li>Авто-объединение с уровнем уверенности.</li>
+            <li>Подсветка потенциальных дублей.</li>
+            <li>Ручное подтверждение аналитиком.</li>
+          </ul>
+        </div>
+        <div class="pipeline__step">
+          <h3>Сохранение исходных данных</h3>
+          <ul>
+            <li>Сырые данные не удаляются.</li>
+            <li>Каждая сущность хранит источник.</li>
+            <li>История изменений доступна в журнале.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="agents">
+      <div class="section__header">
+        <h2>Аналитические агенты</h2>
+        <p>Логическая модель агентов, фиксирующая каждое действие.</p>
+      </div>
+      <div class="grid grid--5" id="agentGrid"></div>
+    </section>
+
+    <section class="section" id="hypothesis-layer">
+      <div class="section__header">
+        <h2>Мыслительный слой</h2>
+        <p>Управление гипотезами, версиями и лентой рассуждений.</p>
+      </div>
+      <div class="thought">
+        <div class="card">
+          <h3>Дерево версий</h3>
+          <div class="tree" id="versionTree"></div>
+        </div>
+        <div class="card">
+          <h3>Лента мыслей</h3>
+          <div class="timeline" id="thoughtTimeline"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="visuals">
+      <div class="section__header">
+        <h2>Визуализация</h2>
+        <p>Граф связей, временная шкала и карта активности.</p>
+      </div>
+      <div class="visuals">
+        <div class="card">
+          <h3>Граф связей</h3>
+          <ul>
+            <li>Типы связей: проживание, общие организации, контакты.</li>
+            <li>Фильтры по типу и периоду.</li>
+            <li>Скрытие слабых связей.</li>
+          </ul>
+          <div class="graph" id="linkGraph"></div>
+        </div>
+        <div class="card">
+          <h3>Timeline</h3>
+          <div class="timeline" id="eventTimeline"></div>
+        </div>
+        <div class="card">
+          <h3>Geo-карта</h3>
+          <div class="map" id="geoMap"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="person-card">
+      <div class="section__header">
+        <h2>Карточка фигуранта</h2>
+        <p>Обзор, данные, связи, время, гео, соцсети, отчёты и гипотезы.</p>
+      </div>
+      <div class="profile" id="personProfile"></div>
+    </section>
+
+    <section class="section" id="social-module">
+      <div class="section__header">
+        <h2>Соцсети и мониторинг</h2>
+        <p>Работа только с публичными данными и разрешёнными источниками.</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="card">
+          <h3>Ввод</h3>
+          <ul>
+            <li>ID или ссылка на профиль.</li>
+            <li>Временной диапазон.</li>
+            <li>Фильтры активности.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Обработка</h3>
+          <ul>
+            <li>Законный сбор публичных постов.</li>
+            <li>Нормализация текста.</li>
+            <li>Выделение тем и паттернов.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Вывод</h3>
+          <ul>
+            <li>Компактный отчёт.</li>
+            <li>Ссылки на публикации.</li>
+            <li>Привязка к фигурантам.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="reports">
+      <div class="section__header">
+        <h2>Отчёты и экспорт</h2>
+        <p>Шаблон LEGAT с явным разделением фактов и интерпретаций.</p>
+      </div>
+      <div class="reports">
+        <div class="card">
+          <h3>Структура отчёта</h3>
+          <ol>
+            <li>Исходные данные и запрос.</li>
+            <li>Сводка по фигуранту.</li>
+            <li>Связи и окружение.</li>
+            <li>География и временные паттерны.</li>
+            <li>Аналитические выводы.</li>
+            <li>Гипотезы и уровни уверенности.</li>
+            <li>Перечень источников.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>Экспорт</h3>
+          <ul>
+            <li>PDF, DOC/DOCX, TXT (структурированный).</li>
+            <li>JSON для интеграций.</li>
+            <li>Сохранение структуры и ссылок.</li>
+          </ul>
+          <div class="export">
+            <button class="btn">PDF</button>
+            <button class="btn">DOCX</button>
+            <button class="btn">TXT</button>
+            <button class="btn">JSON</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="logging">
+      <div class="section__header">
+        <h2>Журнал действий и прозрачность</h2>
+        <p>Полная трассировка действий и версий.</p>
+      </div>
+      <div class="card">
+        <div class="log" id="auditLog"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>LEGAT — аналитическая платформа для законной криминалистики и безопасного взаимодействия.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
