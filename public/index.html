@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Фотоловушки — Детекции</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>Панель фотоловушек</h1>
+        <p>Мониторинг и анализ фото/видео детекций в реальном времени.</p>
+      </div>
+      <div class="header-actions">
+        <button id="enable-notifications" class="primary">Включить уведомления</button>
+        <button id="refresh" class="ghost">Обновить</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Фотоловушки</h2>
+          <button id="add-trap" class="ghost">+ Добавить</button>
+        </div>
+        <div id="trap-list" class="trap-list"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Фильтры</h2>
+        </div>
+        <div class="filters">
+          <label>
+            Поиск
+            <input id="search" type="search" placeholder="имя файла или объект" />
+          </label>
+          <label>
+            Тип медиа
+            <select id="media-type">
+              <option value="">Все</option>
+              <option value="image">Фото</option>
+              <option value="video">Видео</option>
+            </select>
+          </label>
+          <label>
+            Объекты
+            <div class="pill-group" id="object-filter"></div>
+          </label>
+        </div>
+        <div class="panel-divider"></div>
+        <div class="filters">
+          <h3>Уведомления</h3>
+          <label class="toggle">
+            <input id="notify-enabled" type="checkbox" />
+            <span>Разрешить уведомления по триггерам</span>
+          </label>
+          <div>
+            <p class="muted">Типы объектов</p>
+            <div class="pill-group" id="notify-objects"></div>
+          </div>
+          <div>
+            <p class="muted">Действия</p>
+            <div class="pill-group" id="notify-actions"></div>
+          </div>
+          <button id="save-settings" class="primary">Сохранить настройки</button>
+        </div>
+      </section>
+
+      <section class="panel detections-panel">
+        <div class="panel-header">
+          <h2>Детекции</h2>
+          <div class="status" id="status">Ожидаем новые данные…</div>
+        </div>
+        <div id="detections" class="detections"></div>
+      </section>
+
+      <section class="panel detail-panel" id="detail-panel">
+        <div class="panel-header">
+          <h2>Детекция</h2>
+        </div>
+        <div id="detail"></div>
+      </section>
+    </main>
+
+    <dialog id="trap-dialog">
+      <form method="dialog" class="dialog-form">
+        <h3>Новая фотоловушка</h3>
+        <label>
+          Название
+          <input name="name" required placeholder="Лес 1" />
+        </label>
+        <label>
+          Email ловушки
+          <input name="email" type="email" required placeholder="trap@example.com" />
+        </label>
+        <menu>
+          <button value="cancel" class="ghost">Отмена</button>
+          <button value="submit" class="primary">Сохранить</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
